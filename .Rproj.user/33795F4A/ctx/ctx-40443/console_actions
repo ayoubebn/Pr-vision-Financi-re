@@ -1,0 +1,32 @@
+{
+    "type": [
+        2,
+        2,
+        0,
+        1,
+        3,
+        3,
+        2,
+        3,
+        0,
+        1,
+        2,
+        0,
+        2
+    ],
+    "data": [
+        "\nR version 4.4.1 (2024-06-14 ucrt) -- \"Race for Your Life\"\nCopyright (C) 2024 The R Foundation for Statistical Computing\nPlatform: x86_64-w64-mingw32/x64\n\nR is free software and comes with ABSOLUTELY NO WARRANTY.\nYou are welcome to redistribute it under certain conditions.\nType 'license()' or 'licence()' for distribution details.\n\n  Natural language support but running in an English locale\n\nR is a collaborative project with many contributors.\nType 'contributors()' for more information and\n'citation()' on ho",
+        "w to cite R or R packages in publications.\n\nType 'demo()' for some demos, 'help()' for on-line help, or\n'help.start()' for an HTML browser interface to help.\nType 'q()' to quit R.\n\n",
+        "> ",
+        "shiny::runApp()",
+        "Loading required package: shiny\nWarning: package ‘shiny’ was built under R version 4.4.2\n\nAttaching package: ‘lubridate’\n\nThe following objects are masked from ‘package:base’:\n\n    date, intersect, setdiff, union\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\nListening on http://127.0.0.1:3237\nWarning in file(file, \"rt\") :\n  URL 'http://real-chart.finance.yahoo.com/table.csv?s=HDFCBANK.NS&a=10&b=20&c=2023&d=10&e=20&f=2024&g=d&ignore=.csv': sta",
+        "tus was 'Couldn't resolve host name'\nWarning: Error in file: cannot open the connection to 'http://real-chart.finance.yahoo.com/table.csv?s=HDFCBANK.NS&a=10&b=20&c=2023&d=10&e=20&f=2024&g=d&ignore=.csv'\n  1: \u001B[37mshiny::runApp\u001B[39m\n",
+        "\u001B[1m\u001B[33mError\u001B[39m in `accountInfo()`:\u001B[22m\n\u001B[38;5;232m\u001B[33m!\u001B[38;5;232m No accounts registered.\n\u001B[36mℹ\u001B[38;5;232m Call `\u001B]8;;ide:help:rsconnect::setAccountInfo\u0007rsconnect::setAccountInfo\u001B]8;;\u0007()` to register an account.\u001B[39m\n\u001B[90mRun `\u001B]8;;x-r-run:rlang::last_trace()\u0007rlang::last_trace()\u001B]8;;\u0007` to see where the error occurred.\u001B[39m\n",
+        "\n",
+        "> ",
+        "install.packages(c(\"shiny\", \"lubridate\", \"ggplot2\", \"forecast\", \"quantmod\", \"TTR\"))",
+        "Error in install.packages : Updating loaded packages\n",
+        "> ",
+        "\nRestarting R session...\n\n"
+    ]
+}

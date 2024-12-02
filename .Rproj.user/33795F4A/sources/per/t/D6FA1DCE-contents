@@ -1,0 +1,36 @@
+library(rvest)
+library(tidyverse)
+url <- "https://coinmarketcap.com/all/views/all/"
+
+
+table <- read_html(url) %>%
+  html_nodes("table")%>%
+  html_table() %>%
+  .[[3]]
+
+  
+table
+
+
+view(table)
+
+new_table <-table %>%select( "Name" ,"Symbol","Price")
+new_table
+
+
+new_table <- new_table %>% mutate(Price =gsub("\\$", "" ,Price))
+new_table
+
+new_table <- new_table %>% mutate(Price =gsub(",", "" ,Price))
+new_table
+new_table <- new_table %>% mutate(Price =round(as.numeric(Price),2))
+
+new_table
+
+new_table <- new_table %>% filter(complete.cases(new_table))
+new_table
+
+
+new_table %>% arrange (desc(Price)) %>%  head(10)
+
+

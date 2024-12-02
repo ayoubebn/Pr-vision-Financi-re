@@ -1,0 +1,2 @@
+shiny::runApp()
+install.packages(c("shiny", "lubridate", "ggplot2", "forecast", "quantmod", "TTR"))

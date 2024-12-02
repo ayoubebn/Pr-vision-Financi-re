@@ -1,0 +1,173 @@
+# Analyse des Séries Temporelles - Yahoo Finance
+
+---
+title: "Analyse des Séries Temporelles - Yahoo Finance"
+author: "Ayoub EBN EL HADJ"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    theme: united
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+# Configuration globale des chunks
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = 'center',
+  fig.width = 10,
+  fig.height = 6
+)
+
+# Chargement des bibliothèques nécessaires
+library(quantmod)
+library(forecast)
+library(ggplot2)
+library(kableExtra)
+library(tidyquant)  # Pour améliorer la visualisation
+
+
+# Introduction
+#Contexte du Projet
+#Ce projet vise à réaliser une analyse approfondie des séries temporelles financières en utilisant R et différentes techniques de modélisation.
+
+#Objectifs
+#Extraire des données boursières de Yahoo Finance
+#Implémenter des modèles prédictifs
+#Évaluer les performances des modèles"
+#Méthodologie
+#Récupération des Données
+```
+
+```{r}
+
+# Paramètres de récupération
+symbol <- "HDFCBANK.NS"
+start_date <- as.Date("2023-01-01")
+end_date <- Sys.Date()
+
+# Téléchargement des données
+stock_data <- getSymbols(symbol, src = "yahoo", 
+                         from = start_date, 
+                         to = end_date, 
+                         auto.assign = FALSE)
+
+# Extraction des prix de clôture ajustés
+stock_data <- Cl(stock_data)
+#Préparation des Données
+# Division des données
+n <- length(stock_data)
+split_ratio <- 0.9
+split_point <- floor(n * split_ratio)
+
+# Séparation entraînement/test
+train_data <- stock_data[1:split_point]
+test_data <- stock_data[(split_point + 1):n]
+```
+Analyse Exploratoire
+Visualisation des Données
+```
+# Graphique des données d'entraînement
+autoplot(fortify.zoo(train_data)) +
+  labs(
+    title = "Série Temporelle - Prix de Clôture",
+    x = "Date",
+    y = "Prix"
+  ) +
+  theme_minimal()
+  
+```  
+Analyse ACF et PACF
+
+```{r Analyse ACF et PACF}
+par(mfrow = c(1, 2))
+acf(train_data, main = "ACF")
+pacf(train_data, main = "PACF")
+par(mfrow = c(1, 1))
+
+# Modélisation
+#Modèle ARIMA Automatique
+# Sélection automatique du modèle
+auto_arima_model <- auto.arima(train_data)
+
+# Résumé du modèle
+summary(auto_arima_model)
+#Prédictions
+
+# Génération des prédictions
+forecast_horizon <- length(test_data)
+arima_forecast <- forecast(auto_arima_model, h = forecast_horizon)
+
+# Conversion des données en data frame pour ggplot
+forecast_df <- data.frame(
+  Date = as.Date(index(test_data)),
+  Forecast = as.numeric(arima_forecast$mean),
+  Lower80 = as.numeric(arima_forecast$lower[, 1]),
+  Upper80 = as.numeric(arima_forecast$upper[, 1])
+)
+
+test_df <- data.frame(
+  Date = as.Date(index(test_data)),
+  Actual = as.numeric(test_data)
+)
+
+# Visualisation avec ggplot2
+ggplot() +
+  geom_line(data = data.frame(
+    Date = as.Date(index(train_data)), 
+    Price = as.numeric(train_data)
+  ), aes(x = Date, y = Price), color = "blue") +
+  geom_line(data = forecast_df, aes(x = Date, y = Forecast), color = "green") +
+  geom_line(data = test_df, aes(x = Date, y = Actual), color = "red", linetype = "dashed") +
+  geom_ribbon(data = forecast_df, 
+              aes(x = Date, ymin = Lower80, ymax = Upper80), 
+              alpha = 0.2, fill = "green") +
+  labs(
+    title = "Prévisions ARIMA vs Données Réelles",
+    x = "Date",
+    y = "Prix"
+  ) +
+  theme_minimal()
+
+
+# Évaluation des Performances
+#Métriques
+
+# Calcul des métriques
+mae <- mean(abs(test_data - arima_forecast$mean))
+rmse <- sqrt(mean((test_data - arima_forecast$mean)^2))
+
+# Tableau des métriques
+metrics_table <- data.frame(
+  Métrique = c("Erreur Absolue Moyenne (MAE)", "Racine Carrée de l'Erreur Quadratique Moyenne (RMSE)"),
+  Valeur = c(mae, rmse)
+)
+
+kable(metrics_table, 
+      caption = "Métriques de Performance du Modèle",
+      format = "html") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+
+
+#Conclusion
+#Résumé
+#Un modèle ARIMA automatique a été développé
+#Les prédictions montrent une bonne correspondance avec les données réelles
+#Des améliorations futures pourraient inclure des modèles plus avancés
+#Limites et Perspectives
+#Exploration de modèles de machine learning
+#Intégration de variables exogènes
+#Analyse de séries temporelles multivariées
+#Annexes
+#Code Complet
+#Le code R Markdown complet est disponible dans le fichier source.
+
+##Références
+#Package forecast
+#Package quantmod
+#Documentation R pour les séries temporelles

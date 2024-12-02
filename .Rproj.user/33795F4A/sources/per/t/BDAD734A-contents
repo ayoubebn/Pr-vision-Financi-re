@@ -1,0 +1,45 @@
+library(rvest)
+library(tidyverse)
+
+# URL de la page cible
+url <- "https://asllema.com/product-category/makarouna/"
+
+wpath <- '//*[@id="rz-shop-content"]/ul/li[4]/div/div[1]/a/img' 
+
+page <- read_html(url)
+
+
+
+
+produit_image <- page %>% 
+  html_nodes(xpath="//*[@id='rz-shop-content']/ul/li[4]/div/div[1]/a/img") %>% 
+  html_attr("src")
+
+produit_image
+
+desc_images <- page %>% 
+  html_nodes(".product-summary .woocommerce-loop-product__title a") %>% 
+  html_text()
+
+desc_images
+
+Prix_articles <- page %>% 
+  html_nodes(".price bdi") %>% 
+  html_text()
+
+Prix_articles
+
+
+# Combiner les données en un tableau
+data <- data.frame(
+  Description = desc_images,
+  Prix = Prix_articles,
+  Image = produit_image,
+  stringsAsFactors = FALSE
+)
+
+# Afficher les résultats
+print(data)
+
+view(data)
+

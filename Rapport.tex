@@ -1,0 +1,111 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Projet Yahoo Finance},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Projet Yahoo Finance}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}\label{introduction}
+
+Ce projet analyse les séries temporelles extraites de Yahoo Finance à
+l'aide d'une application \textbf{Shiny}. Il comprend les étapes
+suivantes : - Importation et visualisation des données. - Analyse des
+caractéristiques temporelles (ACF, PACF). - Modélisation des données à
+l'aide d'ARIMA et évaluation des performances. - Prédiction des
+observations futures.
+
+\section{Objectifs}\label{objectifs}
+
+Les objectifs principaux du projet sont : 1. Extraire et analyser une
+série temporelle financière. 2. Appliquer des modèles de séries
+temporelles pour prévoir les valeurs futures. 3. Évaluer les modèles en
+utilisant les dernières 10\% des observations comme données de test.
+
+\section{Méthodologie}\label{muxe9thodologie}
+
+\subsection{Extraction des données}\label{extraction-des-donnuxe9es}
+
+Les données sont extraites depuis Yahoo Finance via le package
+\texttt{quantmod}. Nous utilisons les prix de clôture ajustés
+(\texttt{Adjusted\ Closing\ Prices}).
+
+```r library(quantmod)
+
+\section{Paramètres d'exemple}\label{paramuxe8tres-dexemple}
+
+symbol \textless- ``HDFCBANK.NS'' start\_date \textless- ``2023-01-01''
+end\_date \textless- ``2024-11-20''
+
+\section{Extraction des données}\label{extraction-des-donnuxe9es-1}
+
+data \textless- getSymbols(symbol, src = ``yahoo'', from = start\_date,
+to = end\_date, auto.assign = FALSE) head(data)
+
+\end{document}
